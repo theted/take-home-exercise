@@ -6,7 +6,7 @@ export class Ticket extends Sequelize.Model {
       {
         parentId: DataTypes.INTEGER,
         title: DataTypes.STRING,
-        isCompleted: DataTypes.BOOLEAN
+        isCompleted: DataTypes.BOOLEAN,
       },
       {
         sequelize,
