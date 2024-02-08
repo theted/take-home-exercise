@@ -1,6 +1,8 @@
-# Matter Backend Engineer Take-Home Exercise
+# Zymego Backend Engineer Take-Home Exercise
 
-🎉 Welcome to the Matter take-home coding exercise! 🎉
+(forked from https://github.com/matter-app/take-home-exercise-backend)
+
+🎉 Welcome to the Zymego take-home coding exercise! 🎉
 
 This backend exercise is designed to take about 3 hours for someone familiar with `Node.js` and `Express`. Additionally, `GraphQL` will be a major part of this exercise. We do not expect you to know anything about `GraphQL` prior to taking this exercise. We'd be happier if you ended up learning something new out of this exercise.
 
@@ -8,7 +10,7 @@ There are many different ways to complete this exercise. We wanted to keep it op
 
 ## Setup
 
-- The exercise requires [Node.js](https://nodejs.org/en/) to be installed. We recommend using the LTS version.
+- The exercise requires [Node.js](https://nodejs.org/en/) to be installed. We use v18 and recommend using either the same or the LTS version.
 - In the repo root directory, run `npm install` to gather all dependencies.
 - Next, run `npm run setup`. This will set up a local SQLite database, and add some seed data. This database will live in a local file named `database.sqlite3`.
 - Then run `npm run watch`. This should start the server in development mode.
@@ -61,7 +63,8 @@ For starters, 👉 [go through this tutorial](https://www.freecodecamp.org/news/
 ## Before Starting
 
 - ❗️ **Make sure you commit all changes to the master branch!**
-- Don't worry about performance. We won't deduct points for big-O runtime or space efficiency. 
+- Please commit regularily, so we can understand your thought process
+- Don't worry about performance. We won't deduct points for big-O runtime or space efficiency.
 - Take your time. Prioritize correctness, and show us how you usually code in a production setting.
 - To start, go to http://localhost:4001/graphql. This will pull up a GUI called [GraphQL Playground](https://github.com/prisma/graphql-playground) that lets you fire `GraphQL` queries against your api.
 
@@ -70,9 +73,9 @@ For starters, 👉 [go through this tutorial](https://www.freecodecamp.org/news/
 When you have finished the assignment, run the following command:
 
 ```sh
-git bundle create take-home-exercise.bundle HEAD master
+git bundle create take-home-exercise.bundle HEAD main
 ```
 
-This generates a bundle file called `take-home-exercise` based on your local master branch. Return that file to us via email, and we'll review your code within 1-2 days.
+This generates a bundle file called `take-home-exercise` based on your local master branch. Return that file to us via email, and we'll review your code within a few days days and will get in touch with you.
 
 Thank you and good luck! 🙏
