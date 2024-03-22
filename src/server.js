@@ -54,7 +54,13 @@ const resolvers = {
       });
     },
     ticket: async (_root, { id }) => {
-      return models.Ticket.findByPk(id);
+      const ticket = await models.Ticket.findByPk(id);
+      ticket.children = await models.Ticket.findAll({
+        where: {
+          parentId: id
+        }
+      });
+      return ticket;
     }
   },
   Ticket: {},
