@@ -104,6 +104,20 @@ const resolvers = {
 
       // TODO: query the parent ticket to get updated ticket, including children
       return parent;
+    },
+
+    setParentOfTicket: async (_root, { parentId, childId }) => {
+      const child = await models.Ticket.findByPk(childId);
+      child.parentId = parentId;
+      await child.save();
+      return child;
+    },
+
+    removeParentFromTicket: async (_root, { id }) => {
+      const ticket = await models.Ticket.findByPk(id);
+      ticket.parentId = null;
+      await ticket.save();
+      return ticket;
     }
   }
 };
