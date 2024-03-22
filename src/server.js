@@ -54,16 +54,18 @@ const resolvers = {
       });
     },
     ticket: async (_root, { id }) => {
-      const ticket = await models.Ticket.findByPk(id);
-      ticket.children = await models.Ticket.findAll({
-        where: {
-          parentId: id
-        }
-      });
-      return ticket;
+      return models.Ticket.findByPk(id);
     }
   },
-  Ticket: {},
+  Ticket: {
+    children: async (parent) => {
+      return models.Ticket.findAll({
+        where: {
+          parentId: parent.id
+        }
+      });
+    }
+  },
   Mutation: {
     createTicket: async (_root, { title, isCompleted }) => {
       return models.Ticket.create({ title, isCompleted });
