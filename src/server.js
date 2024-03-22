@@ -44,26 +44,45 @@ const typeDefs = gql`
   }
 `;
 
-/**
- * TODO: Your task is implementing the resolvers. Go through the README first.
- * TODO: Your resolvers below will need to implement the typedefs given above.
- */
-
 const resolvers = {
   Query: {
-    /**
-     * We have implemented this first query for you to set up an initial pattern.
-     */
-    tickets: async (root, args, context) => {
+    tickets: async () => {
       return models.Ticket.findAll({
         where: {
           parentId: null
         }
       });
+    },
+    ticket: async (_root, { id }) => {
+      return models.Ticket.findByPk(id);
     }
   },
   Ticket: {},
-  Mutation: {}
+  Mutation: {
+    createTicket: async (_root, { title, isCompleted }) => {
+      return models.Ticket.create({ title, isCompleted });
+    },
+
+    updateTicket: async (_root, { id, title }) => {
+      const ticket = await models.Ticket.findByPk(id);
+      ticket.title = title;
+      await ticket.save();
+      return ticket;
+    },
+
+    toggleTicket: async (_root, { id, isCompleted }) => {
+      const ticket = await models.Ticket.findByPk(id);
+      ticket.isCompleted = isCompleted;
+      await ticket.save();
+      return ticket;
+    },
+
+    removeTicket: async (_root, { id }) => {
+      const ticket = await models.Ticket.findByPk(id);
+      await ticket.destroy();
+      return true;
+    }
+  }
 };
 
 const server = new ApolloServer({
@@ -71,13 +90,13 @@ const server = new ApolloServer({
   resolvers
 });
 
-server.start()
-  .then(() => {
-    const app = express();
-    server.applyMiddleware({ app });
-    
-    app.listen({ port: PORT }, () => {
-      console.log(`Server ready at: http://localhost:${PORT}${server.graphqlPath}`);
-    });
-  })
-  ;
+server.start().then(() => {
+  const app = express();
+  server.applyMiddleware({ app });
+
+  app.listen({ port: PORT }, () => {
+    console.log(
+      `Server ready at: http://localhost:${PORT}${server.graphqlPath}`
+    );
+  });
+});
