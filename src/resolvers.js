@@ -1,3 +1,5 @@
+import { models } from "./db";
+
 export const resolvers = {
   Query: {
     tickets: async () => {
@@ -56,7 +58,6 @@ export const resolvers = {
         }
       );
 
-      // TODO: query the parent ticket to get updated ticket, including children
       return parent;
     },
 
