@@ -1,0 +1,67 @@
+fragment TicketData on Ticket {
+  id
+  title
+  isCompleted
+  children {
+    id
+    title
+  }
+}
+
+# get tickets without parent
+query {
+  tickets {
+    ...TicketData
+  }
+}
+
+# get ticket with id
+query ($ticketId: ID!) {
+  ticket(id: $ticketId) {
+    ...TicketData
+  }
+}
+
+# create ticket
+mutation ($title: String!, $isCompleted: Boolean!) {
+  createTicket(title: $title, isCompleted: $isCompleted) {
+    ...TicketData
+  }
+}
+
+# update ticket
+mutation ($ticketId: ID!, $title: String!) {
+  updateTicket(id: $ticketId, title: $title) {
+    ...TicketData
+  }
+}
+
+# set parent
+mutation ($parentId: ID!, $childrenIds: [ID!]!) {
+  addChildrenToTicket(parentId: $parentId, childrenIds: $childrenIds) {
+    ...TicketData
+  }
+}
+
+# remove parent
+mutation ($removeParentFromTicketId: ID!) {
+  removeParentFromTicket(id: $removeParentFromTicketId) {
+    ...TicketData
+  }
+}
+
+# add children to ticket
+mutation ($parentId: ID!, $childrenIds: [ID!]!) {
+  addChildrenToTicket(parentId: $parentId, childrenIds: $childrenIds) {
+    ...TicketData
+  }
+}
+
+# example variables used
+{
+  "ticketId": 1,
+  "title": "Ticket title",
+  "isCompleted": false,
+  "parentId": 5,
+  "childrenIds": [6, 3],
+}
