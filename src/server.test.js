@@ -1,4 +1,4 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, gql } from "apollo-server-express";
 import { typeDefs } from "./typeDefs";
 import { resolvers } from "./resolvers";
 import { it, expect } from "vitest";
@@ -10,7 +10,13 @@ const server = new ApolloServer({
 
 it("returns tickets without parents", async () => {
   const response = await server.executeOperation({
-    query: "query { tickets { title }}"
+    query: gql`
+      query {
+        tickets {
+          title
+        }
+      }
+    `
   });
 
   expect(response.data.tickets[0].title).toBe("Foo");
@@ -18,7 +24,13 @@ it("returns tickets without parents", async () => {
 
 it("returns a single ticket", async () => {
   const response = await server.executeOperation({
-    query: "query($id: ID!) {  ticket(id: $id) { title } }",
+    query: gql`
+      query ($id: ID!) {
+        ticket(id: $id) {
+          title
+        }
+      }
+    `,
     variables: { id: 1 }
   });
 
@@ -27,8 +39,13 @@ it("returns a single ticket", async () => {
 
 it("creates a ticket", async () => {
   const response = await server.executeOperation({
-    query:
-      'mutation { createTicket(title: "Bar", isCompleted: false) { title } }'
+    query: gql`
+      mutation {
+        createTicket(title: "Bar", isCompleted: false) {
+          title
+        }
+      }
+    `
   });
 
   expect(response.data.createTicket.title).toBe("Bar");
@@ -36,7 +53,13 @@ it("creates a ticket", async () => {
 
 it("updates ticket", async () => {
   const response = await server.executeOperation({
-    query: 'mutation { updateTicket(id: 3, title: "Baz") { title } }'
+    query: gql`
+      mutation {
+        updateTicket(id: 3, title: "Baz") {
+          title
+        }
+      }
+    `
   });
 
   expect(response.data.updateTicket.title).toBe("Baz");
@@ -44,7 +67,13 @@ it("updates ticket", async () => {
 
 it("sets parent of ticket", async () => {
   const response = await server.executeOperation({
-    query: "mutation { setParentOfTicket(parentId: 1, childId: 2) { title } }"
+    query: gql`
+      mutation {
+        setParentOfTicket(parentId: 1, childId: 2) {
+          title
+        }
+      }
+    `
   });
 
   expect(response.data.setParentOfTicket.title).toBe("Bar");
@@ -52,8 +81,17 @@ it("sets parent of ticket", async () => {
 
 it("adds children to ticket", async () => {
   const response = await server.executeOperation({
-    query:
-      "mutation { addChildrenToTicket(parentId: 1, childrenIds: [2, 3]) { title children { id title } } }"
+    query: gql`
+      mutation {
+        addChildrenToTicket(parentId: 1, childrenIds: [2, 3]) {
+          title
+          children {
+            id
+            title
+          }
+        }
+      }
+    `
   });
 
   expect(response.data.addChildrenToTicket.children[0].id).toBe("2");
@@ -61,17 +99,31 @@ it("adds children to ticket", async () => {
 
 it("removes parent from ticket", async () => {
   const response = await server.executeOperation({
-    query:
-      "mutation { removeParentFromTicket(id: 1) { title children { id title } } }"
+    query: gql`
+      mutation {
+        removeParentFromTicket(id: 1) {
+          title
+          children {
+            id
+            title
+          }
+        }
+      }
+    `
   });
 
-  console.log(response.data.removeParentFromTicket);
   expect(response.data.removeParentFromTicket.title).toBe("Foo");
 });
 
 it("toggles ticket", async () => {
   const response = await server.executeOperation({
-    query: "mutation { toggleTicket(id: 1, isCompleted: true) { isCompleted } }"
+    query: gql`
+      mutation {
+        toggleTicket(id: 1, isCompleted: true) {
+          isCompleted
+        }
+      }
+    `
   });
 
   expect(response.data.toggleTicket.isCompleted).toBe(true);
